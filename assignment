@@ -1,0 +1,53 @@
+    create table JobOpening (jobID int,
+						jobTitle varchar(255),
+						Department varchar(255),
+						MiniExperiance int,
+						MainEducation varchar(255));
+
+      create table Application (ApplicationID int,
+						 ApplicationName varchar(255),
+						 ExperianceYears int,
+						 Education varchar(255),
+						 ApplicationJobID int);
+
+
+    insert into jobopening values 
+	(101,'Spacecraft Pilot','Flight Operation', 5, 'Bachelor''s in Aerospace Engineering'),
+	(102,'Mission Specialist', 'Science', 3, 'PhD in Physics or related field'),
+	(103,'Space Engineer','Engineering',3,'Bachelor''s in Mechanical Engineering'),
+	(104, 'Communications Officer', 'Communication', 2, 'Bachelor''s in Communication');
+
+
+insert into application values
+(501, 'John Astronaut', 7, 'Master''s in Aerospace Engineering', 101),
+(502, 'Lisa Scientist', 4, 'PhD in Physics', 102),
+(503, 'Mark Engineer', 5, 'Bachelor''s in Mechanical Engineering',103)
+(504, 'Emily Communicator', 3, 'Bachelor''s in Mechanical Communication',104);
+
+select * from jobopening;
+
+select applicationname, jobtitle
+from application
+left join jobopening on application.applicationid = jobopening.jobid;
+
+select applicationname, jobopening.jobtitle
+from application
+left join jobopening on application.applicationid = jobopening.jobid;
+
+select application.applicationname, jobopening.jobtitle
+from application
+join jobopening on application.applicationjobid = jobopening.jobid
+where application.experianceyears >= jobopening.miniexperiance
+and application.education >= jobopening.maineducation;
+
+select application.applicationname, application.applicationjobid
+from application
+left join jobopening on application.applicationjobid = jobopening.jobid
+where jobopening.jobid is null;
+
+select * from jobopening where miniexperiance >= 3 and miniexperiance <=5;
+
+select jobopening.jobtitle, application.education, count(*)
+as application_count
+from application join jobopening on application.applicationjobid = jobopening.jobid
+group by jobopening.jobtitle, application.education;
